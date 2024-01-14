@@ -9,7 +9,7 @@ object WTBMCommands {
     var title : String? = null
         private set
 
-    fun setPlugin(plugin: JavaPlugin, title: String?){
+    fun initialize(plugin: JavaPlugin, title: String?){
         minecraftPlugin = plugin
         WTBMCommands.title = title
     }

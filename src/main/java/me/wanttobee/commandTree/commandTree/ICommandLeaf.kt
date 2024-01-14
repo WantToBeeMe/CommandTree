@@ -7,11 +7,10 @@ import org.bukkit.entity.Player
 // We are using a composite design
 // that means we have branches and leaves
 // branches may have new nodes hanging on it
-// however, leaves are normally the end
-// in our case however, we modified this design a bit, and we can better explain it as
+// leaves are normally the end
+// in our case however, there can be leaves to contain other leaves lol
 // branched: a way of sorting the leaves in groups
 // leaves: the parameters which are eventually going to be used for the thing you are trying to do
-// leaves can have nodes under them, but it becomes messy if you do (just like basically all the big minecraft commands XD)
 abstract class ICommandLeaf<T>(argName : String, protected val effect : (Player, T) -> Unit, protected val emptyEffect : ((Player) -> Unit)? = null) : ICommandNode(argName) {
 
     // some leaves have more arguments, in order to find when this leaf is finished, we need to say how many
