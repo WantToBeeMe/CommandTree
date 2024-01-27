@@ -47,7 +47,7 @@ The instance is used internally whenever it needs something related to the plugi
 The title is used for example when an error happens, or any other feedback to the commander.
 
 There are 2 examples in the `examples` folder:
-- [HelloWorldCommand](src/main/java/me/wanttobee/commandtree/examples/HelloWorld.kt): This demonstrates how to use CommandTree with a very basic command
+- [HelloWorldCommand](src/main/java/me/wanttobee/commandtree/examples/HelloWorldCommand.kt): This demonstrates how to use CommandTree with a very basic command
 - [GroupCommand](src/main/java/me/wanttobee/commandtree/examples/GroupCommand.kt): This provides a more advanced usage scenario.
 
 If you see `commander` in the source code, you will know that is referencing a player which sends the command in the chat.
