@@ -5,54 +5,53 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 
 class CommandLocationLeaf(argName : String, effect : (Player, Location) -> Unit, emptyEffect : ((Player) -> Unit)? = null ) : ICommandLeaf<Location>(argName,effect, emptyEffect) {
-
     override val commandParam: String = "(x:number) (y:number) (z:number)"
     override val argumentsNeeded: Int = 3
 
-    override fun validateValue(sender: Player, tailArgs: Array<String>): Location? {
+    override fun validateValue(commander: Player, tailArgs: Array<String>): Location? {
         if(tailArgs.size < 3) return null
-        val x = toLocation(sender, "x", tailArgs[0]) ?: run {
-            WTBMCommands.sendErrorToSender(sender,"${tailArgs[0]} is not a valid number","(x)" )
+        val x = toLocation(commander, "x", tailArgs[0]) ?: run {
+            WTBMCommands.sendErrorToCommander(commander,"${tailArgs[0]} is not a valid number","(x)" )
             return null
         }
-        val y = toLocation(sender, "y", tailArgs[1]) ?: run {
-            WTBMCommands.sendErrorToSender(sender,"${tailArgs[1]} is not a valid number","(y)" )
+        val y = toLocation(commander, "y", tailArgs[1]) ?: run {
+            WTBMCommands.sendErrorToCommander(commander,"${tailArgs[1]} is not a valid number","(y)" )
             return null
         }
-        val z = toLocation(sender, "z", tailArgs[2]) ?: run {
-            WTBMCommands.sendErrorToSender(sender,"${tailArgs[2]} is not a valid number","(z)" )
+        val z = toLocation(commander, "z", tailArgs[2]) ?: run {
+            WTBMCommands.sendErrorToCommander(commander,"${tailArgs[2]} is not a valid number","(z)" )
             return null
         }
-        return Location(sender.world,x,y,z)
+        return Location(commander.world,x,y,z)
     }
     private fun toLocation(sender: Player, direction: String, numberCord: String) : Double?{
-        if(numberCord ==  "~") return getSenderLocation(sender, direction)
+        if(numberCord ==  "~") return getCommandersLocation(sender, direction)
 
         var numberToTranslate = numberCord
         if(numberCord.startsWith('~'))
             numberToTranslate = numberCord.drop(1)
         var cord = numberToTranslate.toDoubleOrNull() ?: return null
         if(numberCord.startsWith('~'))
-            cord += getSenderLocation(sender, direction)
+            cord += getCommandersLocation(sender, direction)
         return cord
     }
-    private fun getSenderLocation(sender : Player, direction: String) : Double{
+    private fun getCommandersLocation(commander : Player, direction: String) : Double{
         return when (direction) {
-            "x" -> sender.location.x
-            "y" -> sender.location.y
-            "z" -> sender.location.z
+            "x" -> commander.location.x
+            "y" -> commander.location.y
+            "z" -> commander.location.z
             else -> -1.0
         }
     }
 
 
-    override fun nextTabComplete(sender: Player, fromArg: String, tailArgs: Array<String>): List<String> {
-        val targetBlock = sender.getTargetBlock(null, 6)
+    override fun nextTabComplete(commander: Player, fromArg: String, tailArgs: Array<String>): List<String> {
+        val targetBlock = commander.getTargetBlock(null, 6)
         val blockLocation = if(targetBlock.type.isAir) null else targetBlock.location
 
         if(tailArgs.size == 1){
             if(tailArgs[0] != ""){
-                if(toLocation(sender, "y", tailArgs[0]) == null) return emptyList()
+                if(toLocation(commander, "y", tailArgs[0]) == null) return emptyList()
                 return listOf(
                    "${tailArgs[0]} ${blockLocation?.blockZ ?: "~"}",
                 )
@@ -66,12 +65,12 @@ class CommandLocationLeaf(argName : String, effect : (Player, Location) -> Unit,
             return listOf("${blockLocation?.blockZ ?: "~"}")
         return emptyList()
     }
-    override fun thisTabComplete(sender: Player, currentlyTyping: String): List<String> {
-        val targetBlock = sender.getTargetBlock(null, 6)
+    override fun thisTabComplete(commander: Player, currentlyTyping: String): List<String> {
+        val targetBlock = commander.getTargetBlock(null, 6)
         val blockLocation = if(targetBlock.type.isAir) null else targetBlock.location
 
         if(currentlyTyping != ""){
-            if(toLocation(sender, "x", currentlyTyping) == null) return emptyList()
+            if(toLocation(commander, "x", currentlyTyping) == null) return emptyList()
             return listOf(
                 "$currentlyTyping ${blockLocation?.blockY ?: "~"}",
                 "$currentlyTyping ${blockLocation?.blockY ?: "~"} ${blockLocation?.blockZ ?: "~"}",

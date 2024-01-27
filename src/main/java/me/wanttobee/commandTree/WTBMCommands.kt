@@ -18,14 +18,14 @@ object WTBMCommands {
         minecraftPlugin.getCommand(command)?.setExecutor(commandObject)
         minecraftPlugin.getCommand(command)?.tabCompleter = commandObject
     }
+
     fun createCommand(commandObject : ICommandNamespace){
         minecraftPlugin.getCommand(commandObject.commandName)?.setExecutor(commandObject)
         minecraftPlugin.getCommand(commandObject.commandName)?.tabCompleter = commandObject
     }
 
-    fun sendErrorToSender(sender: Player, errorMessage: String, extraInfo : String = ""){
+    fun sendErrorToCommander(commander: Player, errorMessage: String, extraInfo : String = ""){
         val titleBit = title ?: ""
-        sender.sendMessage("$titleBit ${ChatColor.RED}$errorMessage ${ChatColor.GRAY}$extraInfo")
+        commander.sendMessage("$titleBit ${ChatColor.RED}$errorMessage ${ChatColor.GRAY}$extraInfo")
     }
-
 }

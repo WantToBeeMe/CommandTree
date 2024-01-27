@@ -8,6 +8,3 @@ interface ICommandObject {
     val helpText : String
     val baseTree : ICommandNode
 }
-
-
-

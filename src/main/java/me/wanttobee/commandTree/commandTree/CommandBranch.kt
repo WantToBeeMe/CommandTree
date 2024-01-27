@@ -11,32 +11,31 @@ import org.bukkit.entity.Player
 // branched: a way of sorting the leaves in groups
 // leaves: the parameters which are eventually going to be used for the thing you are trying to do
 class CommandBranch(argName: String, private val branches : Array<ICommandNode> ) : ICommandNode(argName) {
-
     override val commandParam: String = "..."
 
-    override fun onCommand(sender: Player, tailArgs: Array<String>) {
+    override fun onCommand(commander: Player, tailArgs: Array<String>) {
         if(tailArgs.isEmpty()){
-            WTBMCommands.sendErrorToSender(sender,"not enough arguments found")
+            WTBMCommands.sendErrorToCommander(commander,"not enough arguments found")
             return
         }
         for(branch in branches) {
             if (branch.argName.lowercase() == tailArgs.first().lowercase()){
-                branch.onCommand(sender, tailArgs.copyOfRange(1, tailArgs.size) )
+                branch.onCommand(commander, tailArgs.copyOfRange(1, tailArgs.size) )
                 return
             }
         }
-        WTBMCommands.sendErrorToSender(sender,"${tailArgs.first()} is not a valid argument")
+        WTBMCommands.sendErrorToCommander(commander,"${tailArgs.first()} is not a valid argument")
     }
 
-    override fun nextTabComplete(sender: Player, fromArg:String, tailArgs: Array<String>): List<String> {
+    override fun nextTabComplete(commander: Player, fromArg:String, tailArgs: Array<String>): List<String> {
         for(branch in branches){
             if(branch.argName.lowercase() == fromArg.lowercase())
-                return branch.getTabComplete(sender, tailArgs)
+                return branch.getTabComplete(commander, tailArgs)
         }
         return emptyList()
     }
 
-    override fun thisTabComplete(sender: Player, currentlyTyping: String) : List<String> {
+    override fun thisTabComplete(commander: Player, currentlyTyping: String) : List<String> {
         val list = mutableListOf<String>()
         for(branch in branches)
             if(branch.argName.lowercase().contains(currentlyTyping.lowercase())) list.add(branch.argName)

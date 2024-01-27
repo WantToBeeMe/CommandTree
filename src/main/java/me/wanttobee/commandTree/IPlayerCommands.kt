@@ -34,7 +34,7 @@ interface IPlayerCommands : CommandExecutor, TabCompleter {
         }
         return onCommand(sender,  Array(args.size) { index -> args[index] })
     }
-    fun onCommand(sender: Player, args : Array<String>) : Boolean
+    fun onCommand(commander: Player, args : Array<String>) : Boolean
 
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): List<String> {
         val list : MutableList<String> = mutableListOf();
@@ -48,7 +48,7 @@ interface IPlayerCommands : CommandExecutor, TabCompleter {
 
         return onTabComplete(sender, args)
     }
-    fun onTabComplete(sender: Player, args : Array<String>) : List<String>
+    fun onTabComplete(commander: Player, args : Array<String>) : List<String>
 
-    fun help(sender: Player, page : Int = 1)
+    fun help(commander: Player, page : Int = 1)
 }

@@ -6,17 +6,16 @@ import org.bukkit.entity.Player
 // its only has its own argument name and no other parameters
 // in other words, this leave is  finished when you enter the argument name without anything else
 class CommandEmptyLeaf(argName : String, emptyEffect : ((Player) -> Unit) ) : ICommandLeaf<Unit>(argName,{ _, _->}, emptyEffect) {
-
     override val commandParam: String = ""
     override val argumentsNeeded: Int = 0
 
-    override fun onCommand(sender: Player, tailArgs: Array<String>) {
-        emptyEffect!!.invoke(sender)
+    override fun onCommand(commander: Player, tailArgs: Array<String>) {
+        emptyEffect!!.invoke(commander)
     }
 
-    override fun validateValue(sender: Player, tailArgs: Array<String>) {}
+    override fun validateValue(commander: Player, tailArgs: Array<String>) {}
 
-    override fun thisTabComplete(sender: Player, currentlyTyping: String): List<String> {
+    override fun thisTabComplete(commander: Player, currentlyTyping: String): List<String> {
         return emptyList()
     }
 }

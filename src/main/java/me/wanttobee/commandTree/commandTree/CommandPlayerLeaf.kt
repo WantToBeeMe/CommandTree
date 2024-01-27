@@ -13,7 +13,7 @@ class CommandPlayerLeaf private constructor(argName : String, private val realTi
 
     override val commandParam: String = "(Player)"
 
-    override fun validateValue(sender: Player, tailArgs: Array<String>): Player? {
+    override fun validateValue(commander: Player, tailArgs: Array<String>): Player? {
         if(tailArgs.isEmpty()) return null
         // this is the only place that we give slack for the lowercase() in the arguments
         // these are names and minecraft also handles it so you cant have the same names with different capitalisation
@@ -30,11 +30,11 @@ class CommandPlayerLeaf private constructor(argName : String, private val realTi
                     return pos
             }
         }
-        WTBMCommands.sendErrorToSender(sender,tailArgs.first(),"is not online" )
+        WTBMCommands.sendErrorToCommander(commander,tailArgs.first(),"is not online" )
         return null
     }
 
-    override fun thisTabComplete(sender: Player, currentlyTyping: String): List<String> {
+    override fun thisTabComplete(commander: Player, currentlyTyping: String): List<String> {
         val list = mutableListOf<String>()
         if((possiblePlayers != null && possiblePlayers.isEmpty()) || (realTimePossiblePlayers != null && realTimePossiblePlayers.invoke().isEmpty()) ){
             if("" == currentlyTyping)

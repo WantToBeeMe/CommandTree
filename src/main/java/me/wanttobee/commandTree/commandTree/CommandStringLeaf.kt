@@ -13,7 +13,7 @@ class CommandStringLeaf private constructor(argName : String, private val realTi
 
     override val commandParam: String = "(String)"
 
-    override fun validateValue(sender: Player, tailArgs: Array<String>): String? {
+    override fun validateValue(commander: Player, tailArgs: Array<String>): String? {
         if(tailArgs.isEmpty()) return null
         // if there are no possibilities, that means every string is possible
         if(possibilities == null && realTimePossibilities == null )
@@ -32,11 +32,11 @@ class CommandStringLeaf private constructor(argName : String, private val realTi
                     return tailArgs.first()
             }
         }
-        WTBMCommands.sendErrorToSender(sender,tailArgs.first(),"is not a valid argument" )
+        WTBMCommands.sendErrorToCommander(commander,tailArgs.first(),"is not a valid argument" )
         return null
     }
 
-    override fun thisTabComplete(sender: Player, currentlyTyping: String): List<String> {
+    override fun thisTabComplete(commander: Player, currentlyTyping: String): List<String> {
         val list = mutableListOf<String>()
         if(possibilities == null && realTimePossibilities == null){
             if("" == currentlyTyping)

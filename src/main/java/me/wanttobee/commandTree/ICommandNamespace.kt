@@ -29,44 +29,44 @@ interface ICommandNamespace : IPlayerCommands {
     // it will then check all the different CommandObjects if there is one that is assigned  to "say"
     // if so it will enter the next arguments to that object
     //  so in this case, SayObject.onCommand(player, ["143","5"])
-    override fun onCommand(sender: Player, args: Array<String>): Boolean {
+    override fun onCommand(commander: Player, args: Array<String>): Boolean {
         var ranCommand = false
         if(hasOnlyOneGroupMember){
-            systemCommands.first().baseTree.onCommand(sender,args)
+            systemCommands.first().baseTree.onCommand(commander,args)
             return true
         }
         for(sysCom in systemCommands){
             if (sysCom.baseTree.argName == args.first()) {
-                sysCom.baseTree.onCommand(sender, args.copyOfRange(1, args.size))
+                sysCom.baseTree.onCommand(commander, args.copyOfRange(1, args.size))
                 ranCommand = true
                 break
             }
         }
         if(!ranCommand){
-            WTBMCommands.sendErrorToSender(sender, "that is not a valid command.", args.joinToString(" "))
+            WTBMCommands.sendErrorToCommander(commander, "that is not a valid command.", args.joinToString(" "))
         }
 
         return true
     }
 
-    override fun help(sender: Player, page : Int){
+    override fun help(commander: Player, page : Int){
         val amountPerPage = 8
         val totalPages = (systemCommands.size/amountPerPage)+1
         val page = Math.min(page,totalPages)
         val helperTab : (String)-> String = { h -> "${ChatColor.YELLOW}$h${ChatColor.WHITE}"}
-        sender.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
+        commander.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
         if(page == 1) {
-            if(WTBMCommands.title != null) sender.sendMessage(
+            if(WTBMCommands.title != null) commander.sendMessage(
                 "${WTBMCommands.title} ${ChatColor.YELLOW}/$commandName${ChatColor.WHITE} $commandSummary"
             )
-            else sender.sendMessage("[${ChatColor.YELLOW}$commandName${ChatColor.RESET}] $commandSummary")
+            else commander.sendMessage("[${ChatColor.YELLOW}$commandName${ChatColor.RESET}] $commandSummary")
         }
 
         // when there is only 1 group member we don't have to display each object as a different command, because there is only 1 possibility
         if(hasOnlyOneGroupMember){
             if(!isZeroParameterCommand)  // if there are parameters, there is no need of showing this command again
-                sender.sendMessage("${ChatColor.GRAY}/$commandName ${systemCommands.first().baseTree.commandParam}")
-            sender.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
+                commander.sendMessage("${ChatColor.GRAY}/$commandName ${systemCommands.first().baseTree.commandParam}")
+            commander.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
             return
         }
 
@@ -75,16 +75,16 @@ interface ICommandNamespace : IPlayerCommands {
             if(systemCommands.size <= index) break
             val command = systemCommands[sysCom]
             val commandExample = "${ChatColor.GRAY}/$commandName ${command.baseTree.argName} ${command.baseTree.commandParam}"
-            sender.sendMessage("- ${helperTab(command.baseTree.argName + ":")} ${command.helpText} $commandExample")
+            commander.sendMessage("- ${helperTab(command.baseTree.argName + ":")} ${command.helpText} $commandExample")
         }
-        sender.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
+        commander.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
     }
 
-    override fun onTabComplete(sender: Player, args: Array<String>): List<String> {
+    override fun onTabComplete(commander: Player, args: Array<String>): List<String> {
         val list : MutableList<String> = mutableListOf();
 
         if(hasOnlyOneGroupMember)
-            return systemCommands.first().baseTree.getTabComplete(sender, args)
+            return systemCommands.first().baseTree.getTabComplete(commander, args)
 
         // we don't want to annoy people with accidentally having caps on, so the tab complete
         // will still work when you write the capitalisation wrong
@@ -103,9 +103,8 @@ interface ICommandNamespace : IPlayerCommands {
             // we find the command object that is the first argument, and let that
             // object handle the tab complete from there
             if(sysCom.baseTree.argName == args.first())
-                return sysCom.baseTree.getTabComplete(sender, args.copyOfRange(1, args.size) )
+                return sysCom.baseTree.getTabComplete(commander, args.copyOfRange(1, args.size) )
         }
         return list
     }
-
 }

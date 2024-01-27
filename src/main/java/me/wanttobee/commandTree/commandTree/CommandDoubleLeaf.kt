@@ -10,16 +10,16 @@ class CommandDoubleLeaf private constructor(argName : String, private val realTi
 
     override val commandParam: String = "(Number)"
 
-    override fun validateValue(sender: Player, tailArgs: Array<String>): Double? {
+    override fun validateValue(commander: Player, tailArgs: Array<String>): Double? {
         if(tailArgs.isEmpty()) return null
         if(tailArgs.first() == ".."){
-            if(emptyEffect != null) emptyEffect.invoke(sender)
-            else WTBMCommands.sendErrorToSender(sender,
+            if(emptyEffect != null) emptyEffect.invoke(commander)
+            else WTBMCommands.sendErrorToCommander(commander,
                 "${ChatColor.RED}these ${ChatColor.GRAY}..${ChatColor.RED} are there to convey that you could type any number ${ChatColor.DARK_RED}(Int)${ChatColor.RED}, but not literally ${ChatColor.GRAY}.." )
             return null
         }
         var number = tailArgs.first().toDoubleOrNull() ?: run {
-            WTBMCommands.sendErrorToSender(sender,
+            WTBMCommands.sendErrorToCommander(commander,
                 "${tailArgs.first()} is not a valid number.",
                 "should be a Double")
             return  null
@@ -30,32 +30,32 @@ class CommandDoubleLeaf private constructor(argName : String, private val realTi
         // from here on, the number is correct, but we only need to make sure the number is not too big or small due to the given clamps
         if(min != null && number < min){
             number = min
-            WTBMCommands.sendErrorToSender(sender,
+            WTBMCommands.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $min.",
                 "number can only be from $min to $max")
         }
         else if(max != null && number > max){
             number = max
-            WTBMCommands.sendErrorToSender(sender,
+            WTBMCommands.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $max.",
                 "number can only be from $min to $max")
         }
         else if(realTimeMinValue != null && number < realTimeMinValue){
             number = realTimeMinValue
-            WTBMCommands.sendErrorToSender(sender,
+            WTBMCommands.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $realTimeMinValue.",
                 "number cant be lower than $realTimeMinValue")
         }
         else if(realTimeMaxValue != null && number > realTimeMaxValue){
             number = realTimeMaxValue
-            WTBMCommands.sendErrorToSender(sender,
+            WTBMCommands.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $realTimeMaxValue.",
                 "number cant be higher than $realTimeMaxValue")
         }
         return number
     }
 
-    override fun thisTabComplete(sender: Player, currentlyTyping: String): List<String> {
+    override fun thisTabComplete(commander: Player, currentlyTyping: String): List<String> {
         val list = mutableListOf<String>()
         if (min == null && max == null && realTimeMin == null && realTimeMax == null) {
             if ("" == currentlyTyping)
