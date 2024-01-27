@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
@@ -11,15 +11,15 @@ class CommandLocationLeaf(argName : String, effect : (Player, Location) -> Unit,
     override fun validateValue(commander: Player, tailArgs: Array<String>): Location? {
         if(tailArgs.size < 3) return null
         val x = toLocation(commander, "x", tailArgs[0]) ?: run {
-            WTBMCommands.sendErrorToCommander(commander,"${tailArgs[0]} is not a valid number","(x)" )
+            CommandTreeSystem.sendErrorToCommander(commander,"${tailArgs[0]} is not a valid number","(x)" )
             return null
         }
         val y = toLocation(commander, "y", tailArgs[1]) ?: run {
-            WTBMCommands.sendErrorToCommander(commander,"${tailArgs[1]} is not a valid number","(y)" )
+            CommandTreeSystem.sendErrorToCommander(commander,"${tailArgs[1]} is not a valid number","(y)" )
             return null
         }
         val z = toLocation(commander, "z", tailArgs[2]) ?: run {
-            WTBMCommands.sendErrorToCommander(commander,"${tailArgs[2]} is not a valid number","(z)" )
+            CommandTreeSystem.sendErrorToCommander(commander,"${tailArgs[2]} is not a valid number","(z)" )
             return null
         }
         return Location(commander.world,x,y,z)

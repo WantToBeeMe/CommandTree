@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree
+package me.wanttobee.commandtree
 
-import me.wanttobee.commandTree.commandTree.ICommandNode
+import me.wanttobee.commandtree.nodes.ICommandNode
 
 //an interface to build your command tree from
 interface ICommandObject {

@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 // We are using a composite design
@@ -15,7 +15,7 @@ class CommandBranch(argName: String, private val branches : Array<ICommandNode> 
 
     override fun onCommand(commander: Player, tailArgs: Array<String>) {
         if(tailArgs.isEmpty()){
-            WTBMCommands.sendErrorToCommander(commander,"not enough arguments found")
+            CommandTreeSystem.sendErrorToCommander(commander,"not enough arguments found")
             return
         }
         for(branch in branches) {
@@ -24,7 +24,7 @@ class CommandBranch(argName: String, private val branches : Array<ICommandNode> 
                 return
             }
         }
-        WTBMCommands.sendErrorToCommander(commander,"${tailArgs.first()} is not a valid argument")
+        CommandTreeSystem.sendErrorToCommander(commander,"${tailArgs.first()} is not a valid argument")
     }
 
     override fun nextTabComplete(commander: Player, fromArg:String, tailArgs: Array<String>): List<String> {

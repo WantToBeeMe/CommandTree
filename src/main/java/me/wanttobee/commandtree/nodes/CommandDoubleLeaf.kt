@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
@@ -14,12 +14,12 @@ class CommandDoubleLeaf private constructor(argName : String, private val realTi
         if(tailArgs.isEmpty()) return null
         if(tailArgs.first() == ".."){
             if(emptyEffect != null) emptyEffect.invoke(commander)
-            else WTBMCommands.sendErrorToCommander(commander,
+            else CommandTreeSystem.sendErrorToCommander(commander,
                 "${ChatColor.RED}these ${ChatColor.GRAY}..${ChatColor.RED} are there to convey that you could type any number ${ChatColor.DARK_RED}(Int)${ChatColor.RED}, but not literally ${ChatColor.GRAY}.." )
             return null
         }
         var number = tailArgs.first().toDoubleOrNull() ?: run {
-            WTBMCommands.sendErrorToCommander(commander,
+            CommandTreeSystem.sendErrorToCommander(commander,
                 "${tailArgs.first()} is not a valid number.",
                 "should be a Double")
             return  null
@@ -30,25 +30,25 @@ class CommandDoubleLeaf private constructor(argName : String, private val realTi
         // from here on, the number is correct, but we only need to make sure the number is not too big or small due to the given clamps
         if(min != null && number < min){
             number = min
-            WTBMCommands.sendErrorToCommander(commander,
+            CommandTreeSystem.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $min.",
                 "number can only be from $min to $max")
         }
         else if(max != null && number > max){
             number = max
-            WTBMCommands.sendErrorToCommander(commander,
+            CommandTreeSystem.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $max.",
                 "number can only be from $min to $max")
         }
         else if(realTimeMinValue != null && number < realTimeMinValue){
             number = realTimeMinValue
-            WTBMCommands.sendErrorToCommander(commander,
+            CommandTreeSystem.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $realTimeMinValue.",
                 "number cant be lower than $realTimeMinValue")
         }
         else if(realTimeMaxValue != null && number > realTimeMaxValue){
             number = realTimeMaxValue
-            WTBMCommands.sendErrorToCommander(commander,
+            CommandTreeSystem.sendErrorToCommander(commander,
                 "${tailArgs.first()} has been clamped to $realTimeMaxValue.",
                 "number cant be higher than $realTimeMaxValue")
         }

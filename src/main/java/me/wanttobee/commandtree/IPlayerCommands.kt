@@ -1,4 +1,4 @@
-package me.wanttobee.commandTree
+package me.wanttobee.commandtree
 
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor

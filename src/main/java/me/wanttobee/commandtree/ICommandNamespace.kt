@@ -1,4 +1,4 @@
-package me.wanttobee.commandTree
+package me.wanttobee.commandtree
 
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -43,7 +43,7 @@ interface ICommandNamespace : IPlayerCommands {
             }
         }
         if(!ranCommand){
-            WTBMCommands.sendErrorToCommander(commander, "that is not a valid command.", args.joinToString(" "))
+            CommandTreeSystem.sendErrorToCommander(commander, "that is not a valid command.", args.joinToString(" "))
         }
 
         return true
@@ -56,8 +56,8 @@ interface ICommandNamespace : IPlayerCommands {
         val helperTab : (String)-> String = { h -> "${ChatColor.YELLOW}$h${ChatColor.WHITE}"}
         commander.sendMessage("${ChatColor.GRAY}-========= ${ChatColor.WHITE}$page/$totalPages ${ChatColor.GRAY}=========-")
         if(page == 1) {
-            if(WTBMCommands.title != null) commander.sendMessage(
-                "${WTBMCommands.title} ${ChatColor.YELLOW}/$commandName${ChatColor.WHITE} $commandSummary"
+            if(CommandTreeSystem.title != null) commander.sendMessage(
+                "${CommandTreeSystem.title} ${ChatColor.YELLOW}/$commandName${ChatColor.WHITE} $commandSummary"
             )
             else commander.sendMessage("[${ChatColor.YELLOW}$commandName${ChatColor.RESET}] $commandSummary")
         }

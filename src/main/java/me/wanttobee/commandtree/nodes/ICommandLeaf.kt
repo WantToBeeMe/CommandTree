@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 
@@ -23,7 +23,7 @@ abstract class ICommandLeaf<T>(argName : String, protected val effect : (Player,
         // otherwise we will return an error to the user
         if(tailArgs.isEmpty()) {
             if(emptyEffect != null) emptyEffect.invoke(commander)
-            else  WTBMCommands.sendErrorToCommander(commander,"no argument found")
+            else  CommandTreeSystem.sendErrorToCommander(commander,"no argument found")
             return
         }
         val value = validateValue(commander, tailArgs) ?: return

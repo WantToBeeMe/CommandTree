@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 // The pair is if you want multiple parameters under one arg name
@@ -16,11 +16,11 @@ class CommandPairLeaf<T,U>(argName : String, private val firstLeaf : ICommandLea
     override fun onCommand(commander: Player, tailArgs: Array<String>) {
         if(tailArgs.isEmpty()) {
             if(emptyEffect != null) emptyEffect.invoke(commander)
-            else WTBMCommands.sendErrorToCommander(commander, "not enough arguments found")
+            else CommandTreeSystem.sendErrorToCommander(commander, "not enough arguments found")
             return
         }
         val pair = validateValue(commander, tailArgs) ?: run{
-            WTBMCommands.sendErrorToCommander(commander, "not enough arguments found")
+            CommandTreeSystem.sendErrorToCommander(commander, "not enough arguments found")
             return
         }
         effect.invoke(commander,pair)

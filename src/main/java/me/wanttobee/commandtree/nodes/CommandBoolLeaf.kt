@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 class CommandBoolLeaf(argName : String, effect : (Player, Boolean) -> Unit, emptyEffect : ((Player) -> Unit)? = null ) : ICommandLeaf<Boolean>(argName,effect, emptyEffect) {
@@ -9,7 +9,7 @@ class CommandBoolLeaf(argName : String, effect : (Player, Boolean) -> Unit, empt
     override fun validateValue(commander: Player, tailArgs: Array<String>): Boolean? {
         if(tailArgs.isEmpty()) return null
         val bool = tailArgs.first().toBooleanStrictOrNull() ?: run {
-            WTBMCommands.sendErrorToCommander(commander,"${tailArgs.first()} is not a valid boolean", "(true/false)" )
+            CommandTreeSystem.sendErrorToCommander(commander,"${tailArgs.first()} is not a valid boolean", "(true/false)" )
             return null
         }
         return bool

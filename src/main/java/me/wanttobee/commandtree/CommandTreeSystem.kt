@@ -1,17 +1,17 @@
-package me.wanttobee.commandTree
+package me.wanttobee.commandtree
 
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
-object WTBMCommands {
+object CommandTreeSystem {
     private lateinit var minecraftPlugin : JavaPlugin
     var title : String? = null
         private set
 
     fun initialize(plugin: JavaPlugin, title: String?){
         minecraftPlugin = plugin
-        WTBMCommands.title = title
+        CommandTreeSystem.title = title
     }
 
     fun createCommand(command : String,  commandObject : IPlayerCommands){

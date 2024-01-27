@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 // there are 2 types of possiblePlayers
@@ -30,7 +30,7 @@ class CommandPlayerLeaf private constructor(argName : String, private val realTi
                     return pos
             }
         }
-        WTBMCommands.sendErrorToCommander(commander,tailArgs.first(),"is not online" )
+        CommandTreeSystem.sendErrorToCommander(commander,tailArgs.first(),"is not online" )
         return null
     }
 

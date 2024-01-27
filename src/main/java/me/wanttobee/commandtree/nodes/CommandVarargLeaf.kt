@@ -1,4 +1,4 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
 import org.bukkit.entity.Player
 

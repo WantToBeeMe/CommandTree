@@ -1,6 +1,6 @@
-package me.wanttobee.commandTree.commandTree
+package me.wanttobee.commandtree.nodes
 
-import me.wanttobee.commandTree.WTBMCommands
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 // there are 2 types of possibilities
@@ -32,7 +32,7 @@ class CommandStringLeaf private constructor(argName : String, private val realTi
                     return tailArgs.first()
             }
         }
-        WTBMCommands.sendErrorToCommander(commander,tailArgs.first(),"is not a valid argument" )
+        CommandTreeSystem.sendErrorToCommander(commander,tailArgs.first(),"is not a valid argument" )
         return null
     }
 
