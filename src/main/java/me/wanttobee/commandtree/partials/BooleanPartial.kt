@@ -1,11 +1,9 @@
-package me.wanttobee.commandtree.nodes
+package me.wanttobee.commandtree.partials
 
 import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
-class CommandBoolLeaf(argName : String, effect : (Player, Boolean) -> Unit, emptyEffect : ((Player) -> Unit)? = null ) : ICommandLeaf<Boolean>(argName,effect, emptyEffect) {
-    override val commandParam: String = "(true/false)"
-
+class BooleanPartial(argName: String)  : IReturnablePartial<Boolean>(argName) {
     override fun validateValue(commander: Player, tailArgs: Array<String>): Boolean? {
         if(tailArgs.isEmpty()) return null
         val bool = tailArgs.first().toBooleanStrictOrNull() ?: run {

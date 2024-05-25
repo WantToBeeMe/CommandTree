@@ -1,9 +1,8 @@
 package me.wanttobee.commandtree.examples
 
-import me.wanttobee.commandtree.ICommandNamespace
-import me.wanttobee.commandtree.ICommandObject
-import me.wanttobee.commandtree.nodes.CommandEmptyLeaf
-import me.wanttobee.commandtree.nodes.ICommandNode
+import me.wanttobee.commandtree.Description
+import me.wanttobee.commandtree.ITreeCommand
+import me.wanttobee.commandtree.partials.EmptyPartial
 import org.bukkit.ChatColor
 
 // this example is one of the most simple classes
@@ -20,17 +19,10 @@ import org.bukkit.ChatColor
 
 // to make sure it all works you simply have to do `CommandTreeSystem.createCommand(HelloWorldCommand)`
 //  (and make sure the CommandTreeSystem has been initialized )
-object HelloWorldCommand : ICommandNamespace {
-    override val commandName: String = "helloWorld"
-    override val commandSummary: String = "to say hello world"
-    override val systemCommands: Array<ICommandObject> = arrayOf(HelloWorld)
-    override val hasOnlyOneGroupMember: Boolean = true
-    override val isZeroParameterCommand: Boolean = true
+object HelloWorldCommand : ITreeCommand {
+    override val description = Description("to say hello world")
 
-    object HelloWorld : ICommandObject{
-        override val helpText: String = "says hello world"
-        override val baseTree: ICommandNode = CommandEmptyLeaf("say") { commander ->
-            commander.sendMessage("${ChatColor.YELLOW} Hello World")
-        }
+    override val command = EmptyPartial("helloWorld").setEffect { commander ->
+        commander.sendMessage("${ChatColor.YELLOW} Hello World")
     }
 }

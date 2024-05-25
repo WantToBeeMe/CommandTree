@@ -1,15 +1,20 @@
-package me.wanttobee.commandtree.nodes
+package me.wanttobee.commandtree.partials
 
+import me.wanttobee.commandtree.CommandTreeSystem
 import org.bukkit.entity.Player
 
 //the root of the whole composite command structure (branches and leaves)
-abstract class ICommandNode(
+abstract class ICommandPartial (
     val argName : String
     // The argName is used to reference to this node before this node is being used
     // for example, this arg name could be "say"
     // then this node will do its stuff whenever the argument "say" has been entered before
 ) {
-    abstract val commandParam: String
+    var emptyEffect : ((Player) -> Unit)? = null
+   open  fun setEmptyEffect(effect : (Player) -> Unit) : ICommandPartial{
+        emptyEffect = effect
+        return this
+    }
     //with command: /HelloWorld say 143 5
     // the namespace will be /HelloWorld
     // that means the arguments list 'args' will be ["say", "143", "5"]
@@ -18,7 +23,13 @@ abstract class ICommandNode(
     //  so there is where this object comes in.
     // lets say this object is the SayObject for the command "say"
     // in that case it will be found and the command will get the tailsArgs: ["143","5"]
-    abstract fun onCommand(commander : Player, tailArgs : Array<String>)
+    open fun onCommand(commander : Player, tailArgs : Array<String>){
+        if (tailArgs.isEmpty()){
+            if(emptyEffect != null)  emptyEffect!!(commander)
+            else CommandTreeSystem.sendErrorToCommander(commander,
+                "not enough arguments found")
+        }
+    }
 
     //with command: /HelloWorld say 143 5
     // the namespace will be /HelloWorld and let's say this is the SayObject for command "say"
@@ -41,7 +52,7 @@ abstract class ICommandNode(
     // The purpose of this method is to go to the next object that has as command name the "fromArg"
     // it should then return the getTabComplete(tailArgs) from that object
     // (in other words, passing the job of finding the tab complete up to the next object)
-    protected open fun nextTabComplete(commander : Player, fromArg: String, tailArgs : Array<String>) : List<String>{
+    protected open fun nextTabComplete(commander : Player, thisArg: String, followingArgs : Array<String>) : List<String>{
         //the tailArgs are already cut short for the next tabComplete, you don't have to do that anymore
         return emptyList()
     }
